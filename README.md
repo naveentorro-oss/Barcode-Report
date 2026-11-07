@@ -1,28 +1,27 @@
 # Barcode-Report
 
-This project downloads an Excel report from a website and builds a pivot summary in a new Excel workbook.
+Download a report from a website or upload a CSV/Excel file, then create a pivot-style summary workbook.
 
-## Setup
+## Run locally
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-```
-
-## Usage
-
-### Streamlit app
-
-Install the requirements, then start the app:
-
-```bash
 streamlit run app.py
 ```
 
-Upload a CSV or Excel report, choose the fields and Actioned By values to include, and select **Generate report**. Use **Download Excel report** to download the completed workbook directly from the app. For barcode validation reports, `Time Frame` is derived from `Time Taken From Last Action` when it is not already present, and the summary retains the reference workbook layout when the matching fields are selected.
+Upload a CSV or Excel report, choose the row, column, value, and aggregation fields, then select **Generate report**. Use **Download Excel report** to save the generated workbook. If the file contains an `Actioned By` column, you can optionally filter its values.
 
-From a local Excel file:
+## Deploy on Streamlit Community Cloud
+
+1. Push this repository to GitHub.
+2. In [Streamlit Community Cloud](https://share.streamlit.io/), create a new app and select this repository and branch.
+3. Set the **Main file path** to `app.py` and deploy. Cloud installs the packages listed in `requirements.txt`.
+
+## Command-line usage
+
+From a local file:
 
 ```bash
 python barcode_report.py \
@@ -46,10 +45,4 @@ python barcode_report.py \
   --aggfunc "sum"
 ```
 
-The script saves a sheet named `Pivot` inside the output workbook. The sheet contains the summary table that Excel can open and manipulate.
-
-## Notes
-
-- This creates a pivot-style summary table in a new Excel file.
-- Works best with a direct Excel download URL from the report source.
-- If you want a native Excel PivotTable object created by Excel itself, use a Windows environment with Excel/pywin32 automation.
+This produces a pivot-style summary table, not a native Excel PivotTable object.
